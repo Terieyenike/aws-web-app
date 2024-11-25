@@ -1,0 +1,11 @@
+Latitude and longitude test numbers in decimal degrees format
+
+Starbucks headquarters in Seattle, WA
+47.5975024
+-122.3492781
+
+Times Square in New York City, NY
+40.7579787
+-73.9900326
+
+Resulting distance should be 3866 kilometers

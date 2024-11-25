@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Point Oh!</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #FFFFFF;
+            /* Bright white background for better readability */
+            color: #000000;
+            /* Dark text color for contrast */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #0056D2;
+            /* Rich blue background */
+            color: #FFFFFF;
+            /* White text for high contrast */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+            background-color: #F8F9FA;
+            /* Very light gray for a subtle container */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Soft shadow for depth */
+            text-align: center;
+        }
+
+        .form-container label {
+            display: block;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #333333;
+            /* Dark gray for labels */
+        }
+
+        .form-container input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 1rem;
+            border: 1px solid #CCCCCC;
+            /* Light border */
+            border-radius: 4px;
+            color: #333333;
+            /* Dark gray for input text */
+            background-color: #FFFFFF;
+            /* White background for inputs */
+        }
+
+        .form-container button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #0056D2;
+            /* Rich blue for buttons */
+            color: #FFFFFF;
+            /* White text */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #003C99;
+            /* Slightly darker blue on hover */
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #0056D2;
+            /* Blue for the result text */
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #0056D2;
+            /* Match header color */
+            color: #FFFFFF;
+            /* White text */
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            header p {
+                font-size: 0.9rem;
+            }
+
+            .form-container {
+                padding: 15px;
+            }
+
+            .form-container button {
+                font-size: 0.9rem;
+            }
+
+            footer {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+    <script>
+        // Function to call the API and display results
+        const callAPI = (lat1, lon1, lat2, lon2) => {
+            // Validate inputs
+            if (!lat1 || !lon1 || !lat2 || !lon2) {
+                document.getElementById('result').innerText = "Please fill in all fields.";
+                return;
+            }
+
+            const headers = new Headers({ "Content-Type": "application/json" });
+            const body = JSON.stringify({ lat1, lon1, lat2, lon2 });
+
+            fetch("https://y0m400obng.execute-api.eu-west-1.amazonaws.com/dev", {
+                method: 'POST',
+                headers,
+                body,
+            })
+                .then(response => response.text())
+                .then(result => {
+                    const parsedResult = JSON.parse(result).body;
+                    document.getElementById('result').innerText = `Distance: ${parsedResult} km`;
+                })
+                .catch(error => {
+                    document.getElementById('result').innerText = "Error calculating distance. Please try again.";
+                    console.error(error);
+                });
+        };
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Two Point Oh!</h1>
+        <p>Calculate the distance between two points using their latitude and longitude.</p>
+    </header>
+    <main>
+        <div class="form-container">
+            <label for="lat1">Latitude 1:</label>
+            <input type="text" id="lat1" placeholder="Enter Latitude 1">
+
+            <label for="lon1">Longitude 1:</label>
+            <input type="text" id="lon1" placeholder="Enter Longitude 1">
+
+            <label for="lat2">Latitude 2:</label>
+            <input type="text" id="lat2" placeholder="Enter Latitude 2">
+
+            <label for="lon2">Longitude 2:</label>
+            <input type="text" id="lon2" placeholder="Enter Longitude 2">
+
+            <button type="button" onclick="callAPI(
+                document.getElementById('lat1').value,
+                document.getElementById('lon1').value,
+                document.getElementById('lat2').value,
+                document.getElementById('lon2').value
+            )">Calculate</button>
+            <div id="result"></div>
+        </div>
+    </main>
+    <footer>
+        &copy; 2024 Two Point Oh! All rights reserved.
+    </footer>
+</body>
+
+</html>
