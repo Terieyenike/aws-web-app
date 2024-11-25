@@ -4,6 +4,8 @@
 
 This project is a dynamic web application that calculates the distance between two geographical points using their latitude and longitude. The application is built using HTML, CSS, and JavaScript, and it interacts with an API hosted on AWS.
 
+![distance web app](image.png)
+
 ## Features
 
 - User-friendly interface for inputting latitude and longitude.
